@@ -35,6 +35,12 @@ app.get('/fruits/', (req, res) => {
     res.render('Index', {fruits: fruits});
 });
 
+app.get('/fruits/:id', (req, res)=>{
+    fruits.findById(req.params.id, (err, foundFruit)=>{
+        res.send(foundFruit);
+    });
+});
+
 app.get('/fruits/new', (req, res) => {
     res.render('New');
 });
@@ -45,6 +51,9 @@ app.post('/fruits', (req, res) => {
     } else { //if not checked, req.body.readyToEat is undefined
         req.body.readyToEat = false; //do some data correction
     }
+    fruits.create(req.body, (error, createdFruit)=>{
+        res.send(createdFruit);
+    });
     fruits.push(req.body);
     console.log(fruits);
     res.send('data received');
